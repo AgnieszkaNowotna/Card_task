@@ -18,8 +18,7 @@ class BaseContact():
     @property
     def label_lenght(self):
         all_signs = len(self.name) + len(self.surname) + 1
-        self._number_of_signs = all_signs
-        return self._number_of_signs
+        return all_signs
 
 class BusinessContact(BaseContact):
     def __init__(self, business_number,job, company, *args, **kwargs):
@@ -35,18 +34,17 @@ class BusinessContact(BaseContact):
         print(f'Wybieram numer {self.business_number} i dzwonię do {self.name} {self.surname}')
 
 def create_contact(type, amount):
+    contacts = []
     for i in range (amount):
-        name_surname = (fake.name()).split(" ")
+        name_surname = fake.name().split(" ")
         name1 = name_surname[0]
         surname1 = name_surname [-1]
         if type == "base":
             person = BaseContact(name = name1,
                                  surname = surname1,
                                  telephone_number = fake.phone_number(),
-                                 email =fake.email())
-            print(person)
-            person.contact()
-            print(person.label_lenght)
+                                 email = fake.email())
+            contacts.append(person)
         elif type == "business":
             person = BusinessContact(name = name1,
                                      surname = surname1,
@@ -55,10 +53,9 @@ def create_contact(type, amount):
                                      telephone_number = fake.phone_number(),
                                      business_number = fake.phone_number(),
                                      email = fake.email())
-            print(person)
-            person.contact()
-            print(person.label_lenght)
+            contacts.append(person)
         else:
             print("Wprowadzono błędny rodzaj wizytówki")
-
-create_contact("base",10)
+    return contacts
+    
+contacts = create_contact("base",5)
